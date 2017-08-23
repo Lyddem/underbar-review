@@ -250,8 +250,8 @@
     _.each(rest, function(item) {
       _.each(item, function(value, key, item) {
         obj[key] = value;
-      })
-    })
+      });
+    });
     return obj;
   };
 
@@ -264,12 +264,11 @@
       _.each(item, function(value, key, item) {
         if (Object.keys(obj).includes(key)) {
           obj[key] = obj[key];
-        }
-         else {
+        } else {
           obj[key] = value;
         }
-      })
-    })
+      });
+    });
     return obj;
   };
 
@@ -323,8 +322,8 @@
       if(!storage[args]) {
         storage[args] = func.apply(this, arguments);
       }
-        return storage[args];
-    }
+      return storage[args];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -334,8 +333,15 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-  };
 
+    var args = Array.prototype.slice.call(arguments, 2);
+
+    var result = setTimeout(function(){
+        func.apply(this,args) //'this' is scope of _.delay
+    }, wait);
+
+      return result;
+    }
 
   /**
    * ADVANCED COLLECTION OPERATIONS
@@ -348,6 +354,16 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var copy = Array.from(array);
+    for(var i = 0; i < copy.length; i++){
+      var temp = array[i];
+      var randomIndex = Math.floor(Math.random() * copy.length );
+      var randomNumber = copy[randomIndex];
+
+      copy[i] = randomNumber;
+      copy[randomIndex] = temp;
+    }
+      return copy;
   };
 
 
